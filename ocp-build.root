@@ -68,5 +68,5 @@ project_external_dirs = [
 
 (* List of configuration files for this project *)
 files = [
-  "/home/pat/devel/ocaml/curry-containers/curry-containers.ocp";
+  "/home/pat/devel/ocaml/curry-flavor/curry-flavor.ocp";
 ]

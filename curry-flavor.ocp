@@ -1,6 +1,10 @@
 (* This is the build description for the curry containers package
    To compile, you need to use ocp-build *)
 
+copyright = [ "OCamlPro" ]
+authors = [ "Thomas Blanc <thomas.blanc@ocamlpro.com>" ]
+license = [ "BSD-2" ]
+
 begin library "curry-flavor"
  dirname = "src"
  files = [ "curryMap.ml" "currySet.ml" ]
