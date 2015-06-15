@@ -7,7 +7,7 @@ This little package extends OCaml's maps and sets so that you can easily create 
 
 Basically, you may often want to declare types such as
 
-```
+```ocaml
 module Int = struct type t = int let compare = compare end
 
 module Imap = Map.Make ( Int )
@@ -38,7 +38,7 @@ but you'd then have to manipulate tuples and loose memory space (providing your 
 
 This tiny library aims at providing nested maps still compatible with the standard library, but with nice currification:
 
-```
+```ocaml
 module Int = struct type t = int let compare = compare end
 
 module ISImap = ExtMap.Nest (Int) (ExtMap.Nest (String) (ExtMap.Make (Int)))
