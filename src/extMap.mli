@@ -100,6 +100,10 @@ module Make :
 
 (** Nest takes a key type and a previously created map,
     it then returns a new map with an additional key.
+
+    Inside the nested module, the non-emptyness of intermediate maps is maintained.
+    If you manually provide nested maps not respecting that invariant
+    then the is_empty, equal and compare functions are not ensured to work as expected.
 *)
 module Nest :
   functor (Ord : OrderedType) ->

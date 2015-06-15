@@ -52,7 +52,12 @@ module Make : functor ( Ord : OrderedType ) ->
   S with type t = Set.Make(Ord).t
      and type 'a k_arrows = Ord.t -> 'a
 
-(** Adds a key on top of the set, everything stays currified *)
+(** Adds a key on top of the set, everything stays currified
+
+    Inside the nested module, the non-emptyness of intermediate sets is maintained.
+    If you manually provide nested sets not respecting that invariant
+    then the is_empty, equal and compare functions are not ensured to work as expected.
+ *)
 module Nest : functor (Ord : OrderedType) -> functor (S : S) ->
   S with type t = S.t Map.Make(Ord).t
      and type 'a k_arrows = Ord.t -> 'a S.k_arrows
