@@ -18,3 +18,12 @@ _build/
 # oasis generated files
 setup.data
 setup.log
+
+# emacs backup and temporary files
+*~
+\#*\#
+
+# ocp-build generated files
+ocp-build.root.old*
+_obuild/
+
