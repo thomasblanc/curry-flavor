@@ -1,7 +1,11 @@
 
 module type Type = sig type t end
 module type OrderedType = Map.OrderedType
-module type BottomedType = Lattice.BottomedType
+module type BottomedType =
+sig
+  type t
+  val bottom : t
+end
 
 module type S =
 sig

@@ -118,8 +118,13 @@ struct
     fun k -> M.fold_args (fun rest -> f (k,rest))
   let unfold_args f (k,r) = M.unfold_args (f k) r
 
+  let add_if_not_empty k m' m =
+    if M.is_empty m'
+    then m
+    else MM.add k m' m
+
   let empty = MM.empty      
-  let is_empty m = MM.for_all (fun _ m' -> M.is_empty m') m
+  let is_empty m = MM.is_empty m
 
   let mem_inside (k,rest) m =
     try MM.find k m |> M.unfold_args M.mem rest
@@ -140,7 +145,11 @@ struct
 
   let remove_inside =
     (fun ((k,rest):keys) (m: 'a M.t MM.t) ->
-       try let m' = MM.find k m in MM.add k (M.unfold_args M.remove rest m') m
+       try let m' = MM.find k m in
+         let m' = M.unfold_args M.remove rest m' in
+         if M.is_empty m'
+         then MM.remove k m
+         else MM.add k m' m
        with Not_found -> m)
 
 
@@ -180,12 +189,12 @@ struct
   let exists f m = descend_simple MM.exists M.exists f m
 
   let filter f m =
-    MM.fold (fun k m acc -> MM.add k (M.filter (f k) m) acc) m MM.empty
+    MM.fold (fun k m acc -> add_if_not_empty k (M.filter (f k) m) acc) m MM.empty
 
   let partition f m =
     MM.fold (fun k m (r,r') ->
         let sr,sr' = M.partition (f k) m in
-        MM.add k sr r, MM.add k sr' r') m (MM.empty,MM.empty)
+        add_if_not_empty k sr r, add_if_not_empty k sr' r') m (MM.empty,MM.empty)
 
   let split_inside =
     (fun (k,rest) m ->
@@ -193,7 +202,7 @@ struct
        match o with
        | Some m ->
          let minf',o,msup' = M.unfold_args M.split rest m in
-         MM.add k minf' minf, o, MM.add k msup' msup
+         add_if_not_empty k minf' minf, o, add_if_not_empty k msup' msup
        | None ->  minf,None,msup)
 
   let split k = M.fold_args (fun rest -> split_inside (k,rest))

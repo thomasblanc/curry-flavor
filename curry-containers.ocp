@@ -1,0 +1,7 @@
+(* This is the build description for the curry containers package
+   To compile, you need to use ocp-build *)
+
+begin library "curry-containers"
+ dirname = "src"
+ files = [ "extMap.ml" "extSet.ml" ]
+end

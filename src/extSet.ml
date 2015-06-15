@@ -69,8 +69,13 @@ struct
     fun k -> S.fold_args (fun rest -> f (k,rest))
   let unfold_args f (k,r) = S.unfold_args (f k) r
 
+  let add_if_not_empty k s m =
+    if S.is_empty s
+    then m
+    else MS.add k s m
+
   let empty = MS.empty
-  let is_empty m = MS.for_all (fun _ s -> S.is_empty s) m
+  let is_empty m = MS.is_empty m
 
   let mem =
     fold_args
@@ -92,7 +97,10 @@ struct
     fold_args
       (fun (k,rest) m ->
          try let s = MS.find k m in
-           MS.add k (S.unfold_args S.remove rest s) m
+           let s = S.unfold_args S.remove rest s in
+           if S.is_empty s
+           then MS.remove k m
+           else MS.add k s m
          with Not_found -> m)
 
   let union m m' =
@@ -106,14 +114,18 @@ struct
     MS.merge (fun _ o o' ->
         match o,o' with
         | None, _ | _, None -> None
-        | Some s, Some s' -> Some (S.inter s s')
+        | Some s, Some s' ->
+          let ss' = S.inter s s' in
+          if S.is_empty ss' then None else Some ss'
       ) m m'
 
   let diff m m' =
     MS.merge (fun _ o o' ->
         match o,o' with
         | None,_ | _, None -> o
-        | Some s, Some s' -> Some (S.diff s s')
+        | Some s, Some s' ->
+          let sms' = S.diff s s' in
+          if S.is_empty sms' then None else Some sms'
       ) m m'
 
   let compare m m' = MS.compare S.compare m m'
@@ -128,11 +140,12 @@ struct
   let exists f m = MS.exists (fun k s -> S.exists (f k) s) m
 
   let filter f m =
-    MS.fold (fun k s res -> MS.add k (S.filter (f k) s) res) m MS.empty
+    MS.fold (fun k s res -> add_if_not_empty k (S.filter (f k) s) res) m MS.empty
+
   let partition f m =
     MS.fold (fun k s (res,res') ->
         let s,s' = S.partition (f k) s in
-        MS.add k s res, MS.add k s' res')
+        add_if_not_empty k s res, add_if_not_empty k s' res')
       m (MS.empty, MS.empty)
 
   let cardinal m = MS.fold (fun _ s res -> res + (S.cardinal s)) m 0
@@ -144,7 +157,7 @@ struct
         | None -> minf,false,msup
         | Some s ->
           let sinf,b,ssup = S.unfold_args S.split rest s in
-          MS.add k sinf minf, b, MS.add k ssup msup
+          add_if_not_empty k sinf minf, b, add_if_not_empty k ssup msup
       )
 
 
