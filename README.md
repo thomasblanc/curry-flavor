@@ -1,4 +1,4 @@
-# curry-containers
+# curry-flavor
 Curryfied nested maps and sets compatible with OCaml's standard library maps and sets
 
 This little package extends OCaml's maps and sets so that you can easily create and manipulate nested maps and sets.
@@ -41,8 +41,8 @@ This tiny library aims at providing nested maps still compatible with the standa
 ```ocaml
 module Int = struct type t = int let compare = compare end
 
-module ISImap = ExtMap.Nest (Int) (ExtMap.Nest (String) (ExtMap.Make (Int)))
-module ISImapi = ExtMap.SafeFind ( ExtMap.Bind (ISImap) (Int) ) (struct type t = int let bottom = 0 end)
+module ISImap = CurryMap.Nest (Int) (CurryMap.Nest (String) (CurryMap.Make (Int)))
+module ISImapi = CurryMap.SafeFind ( CurryMap.Bind (ISImap) (Int) ) (struct type t = int let bottom = 0 end)
 
 type nmap = ISImapi.t
 
