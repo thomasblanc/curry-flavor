@@ -9,3 +9,9 @@ begin library "curry-flavor"
  dirname = "src"
  files = [ "curryMap.ml" "currySet.ml" ]
 end
+
+begin test "dijkstra"
+ dirname = "examples"
+ files = [ "graph.ml" ]
+ requires = ["curry-flavor"]
+end
