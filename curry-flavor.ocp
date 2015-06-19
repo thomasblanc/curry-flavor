@@ -21,3 +21,9 @@ begin test "translator"
  files = [ "translator.ml" ]
  requires = ["curry-flavor"]
 end
+
+begin test "bigset"
+ dirname = "examples"
+ files = [ "bigset.ml" ]
+ requires = ["curry-flavor"]
+end
