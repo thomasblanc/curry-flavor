@@ -1,0 +1,16 @@
+opam-version: "1.2"
+name: "curry-flavor"
+version: "0.1"
+maintainer: "Thomas Blanc <thomas.blanc@ens-cachan.fr>"
+authors: "Thomas Blanc <thomas.blanc@ens-cachan.fr>"
+homepage: "https://github.com/thomasblanc/curry-flavor"
+bug-reports: "https://github.com/thomasblanc/curry-flavor/issues"
+dev-repo: "git+ssh://git@github.com/thomasblanc/curry-flavor.git"
+license: "BSD-2"
+build: [
+  [ocaml "setup.ml" "-configure" "--prefix" prefix]
+  [make]
+]
+install: [make "install"]
+remove: [make "-uninstall"]
+depends: "ocp-build" {build}

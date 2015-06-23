@@ -1,0 +1,42 @@
+OASISFormat: 0.4
+Name:        curry-flavor
+Version:     0.1
+Synopsis:    Curryfied nested maps and sets compatible with OCaml's standard
+  library maps and sets
+Authors:     Thomas Blanc
+License:     BSD-2-clause
+Plugins:     META (0.4)
+
+## The library
+
+Library "curry-flavor"
+  Path:            src
+  BuildTools:      ocamlbuild
+  Modules:         CurryMap, CurrySet
+  InternalModules: CurryMap, CurrySet
+
+## Examples
+
+Executable dijkstra
+  Path: examples
+  Build: false
+  MainIs: graph.ml
+  Install: false
+  BuildDepends: curry-flavor
+  BuildTools: ocamlbuild
+
+Executable translator
+  Path: examples
+  Build: false
+  MainIs: translator.ml
+  Install: false
+  BuildDepends: curry-flavor
+  BuildTools: ocamlbuild
+
+Executable bigset
+  Path: examples
+  Build: false
+  MainIs: bigset.ml
+  Install: false
+  BuildDepends: curry-flavor
+  BuildTools: ocamlbuild

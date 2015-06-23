@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 7aa5170bc0ab80cbcbbecd1f7eda4308)
+version = "0.1"
+description =
+"Curryfied nested maps and sets compatible with OCaml's standard library maps and sets"
+archive(byte) = "curry-flavor.cma"
+archive(byte, plugin) = "curry-flavor.cma"
+archive(native) = "curry-flavor.cmxa"
+archive(native, plugin) = "curry-flavor.cmxs"
+exists_if = "curry-flavor.cma"
+# OASIS_STOP
+
