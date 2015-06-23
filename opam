@@ -13,4 +13,4 @@ build: [
 ]
 install: [make "install"]
 remove: [make "-uninstall"]
-depends: "ocp-build" {build}
+depends: "ocamlfind" {build}
