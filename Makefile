@@ -15,4 +15,4 @@ all: build test
 clean:
 	ocaml setup.ml -clean
 
-.PHONY: configure all clean build test
+.PHONY: configure all clean build test install
